@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision Planner</title>
+    <style>
+    body {
+        font-family: Arial, Helvetica, sans-serif, Caligastro, Perpetua;
+        margin: 0;
+    }
+    html {
+        box-sizing: border-box;
+    }
+
+    *, *:before, *:after {
+        box-sizing: inherit;
+    }
+
+    .column {
+        float: left;
+        width: 33.3%;
+        margin-bottom: 16px;
+        padding: 0 8px;
+        text-align:center;
+    }
+
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        margin: 8px; 
+        padding: 3px 10px;
+    }
+
+    .about-section {
+        padding: 50px;
+        text-align: center;
+        background-color: #9d9dff;
+        color: white;
+        font-family:Perpetua;
+    }
+
+    .container {
+        padding: 0 16px;
+    }
+
+    .container::after, .row::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    .title {
+        color: #202020;
+        font-family:Cagliostro;
+    }
+
+    .button {
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+        background-color: white; 
+        color: #6b6bff; 
+        border: 2px solid #9d9dff;
+    }
+
+    .button1:hover {
+        background-color: lightgreen;
+        color: white;
+    }
+
+    .h2 {
+        text-align:center;
+        font-family:Candara;
+    }
+
+    .logsign {
+        background-color: #9d9dff;
+    }
+
+    a, a:hover, a:focus, a:active {
+     text-decoration: none;
+     color: inherit;
+ }
+
+    @media screen and (max-width: 650px) {
+        .column {
+            width: 100%;
+            display: block;
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="about-section">
+        <img src="assets/img/VisionPlannerLogo.jpeg" alt="logo" style = "align-items: center; height:150px; width: 150px;">
+        <h1>VISION PLANNER</h1>
+        <h4>
+            VISUALISE YOUR DAYS IN ADVANCE!!!
+            <br><br>
+            Vision Planner helps you organise your day, maintain your Expenses and lets you take out a little time for yourself
+        </h4>
+    </div>
+    <br>
+    <h2 style="text-align:center">Vision Planner consists of three sections!</h2>
+    <div class="row">
+        <div class="column">
+            <a href="classical.html">
+                <div class="card">
+                    <h2>Classical Planner</h2>
+                    <p>
+                        <img src="assets/img/reminder.jpeg" alt="reminder" style = "align-items: center; height:150px; width: 150px;">
+                    </p>
+                    <p class="title">
+                        REMINDERS & TASKS
+                    </p>
+                    <p style="color:#9d9dff;">
+                        Add tasks to do and set reminders for important things and plan your day accordingly!
+                    </p>
+                    <br>
+                </div>
+            </a>
+        </div>
+        <div class="column">
+            <a href="financial.html">
+                <div class="card">
+                    <h2>Financial Planner</h2>
+                    <p>
+                        <img src="assets/img/fin.jpeg" alt="reminder" style = "align-items: center; height:180px; width: 180px;">
+                    </p>
+                    <p class="title">
+                        MANAGE YOUR EXPENSES
+                    </p>
+                    <p style="color:#9d9dff;">
+                        Track of your expenses, get a monthly bill of your expenses generated!
+                    </p>
+                    <br>
+                </div>
+            </a>
+        </div>
+        <div class="column">
+            <a href="moodtracker.html">
+                <div class="card">
+                    <h2>Mood Tracker</h2>
+                    <p>
+                        <img src="assets/img/moodtracker.jpeg" alt="reminder" style = "align-items: center; height:170px; width: 170px;">
+                    </p>
+                    <p class="title">
+                        <i class="bi bi-bell-fill"></i>A LITTLE SELFCARE
+                    </p>
+                    <p style="color:#9d9dff;">
+                        Lets you track your mood by allowing you to pin colours according to your mood
+                    </p>
+                    <br>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="logsign" style="text-align: center;">
+        <br>
+        <p style="color:white">
+            Get experience of our planner by creating a Vision account, if you haven't already or Login!
+        </p> 
+        <a class="button button1" href="login.html" style="text-decoration: none;">LOGIN</a>
+        <a class="button button1" href="signup.html" style="text-decoration: none;">SIGN IN</a>
+        <br><br>
+    </div>
+</body>
+</html>

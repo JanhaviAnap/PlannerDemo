@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision Planner</title>
+    <style>
+        .main {
+            text-align:center;
+            background-color:#9d9dff;
+            color:white;
+            width:auto;
+        }
+        
+        button {
+            background-color:green;
+            color:white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: auto;
+         }
+        button:hover {
+            background-color:white;
+            color:#9d9dff;
+        }
+        footer {
+            text-align:center;
+            background-color:#202020;
+            color:white;
+            position:absolute;
+            bottom: 0;
+            width:100%;
+        }
+    </style>
+    <script>
+        function myFunction() {
+            location.replace("login.html")
+        }
+    </script>
+</head>
+<body>
+    <div class="main">
+        <br>
+        <img src="assets/img/VPLogoBig.jpeg" style="height:200px; width:200px" alt="">
+        <h1>THANK YOU FOR SIGNING UP!</h1>
+        <p>Congratulations! You have successfully signed up and created a Vision Account.</p>
+        <p>You can now continue with the Vision Planner!</p> 
+        <br>
+        <button type="submit" onclick="myFunction()">Login</button>
+        <br><br><br>
+    </div>
+    <footer>
+        <br>
+        <p>&copy; VisionPlanner 2021</p>
+        <p>Made with all the hard work by J,R,N and N</P>    
+    </footer>
+</body>
+</html>

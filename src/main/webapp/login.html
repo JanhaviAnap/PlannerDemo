@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision Planner</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        form {
+            border: 0px solid #f1f1f1;
+        }
+        input[type=text], input[type=password] {
+
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            margin: 8px;
+        }
+
+        button, input[type=submit]{
+            background-color:green;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: auto;
+        }
+
+        button:hover {
+            background-color:white;
+            color:black;
+        }
+
+
+        .container {
+            background-color:#9d9dff;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            margin: 8px;
+            padding: 16px;
+        }
+
+
+        /* Change styles for span and cancel button on extra small screens */
+        @media screen and (max-width: 300px) {
+            span.psw {
+                display: block;
+                float: none;
+            }
+            .cancelbtn {
+                float:left;
+                width: 100%;
+            }
+        }
+
+        .main {
+            text-align:center;
+        }
+        footer {
+            text-align:center;
+            background-color:#202020;
+            color:white;
+            position:absolute;
+            bottom: 0;
+            width:100%;
+        }
+    </style>
+    <script>
+        function myFunction() {
+            login.submit()
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <h2 style="text-align: center;">Login Form</h2>
+    </div>
+    <div class="main">
+    	<div class="container">
+        	<form name="login" action="loginAction.jsp" method="post">
+                <label style="color: white;"><b>UserEmail</b></label><br><!--for="uname"-->
+                <input type="text" placeholder="Enter Email" name="email" required>
+                <br><br>
+                <label style="color:white;"><b>Password</b></label><br><!--for="psw"-->
+                <input type="password" placeholder="Enter Password" name="pswd" required>
+                <br><br>
+                <input type="submit" class="button" value="Submit">
+                <!-- div>
+                    <input type="submit" class="button" value="Submit">
+                    <input type="reset" class="button" value="Reset">
+                    <button type="submit" class="button" value="Submit">Submit</button>
+  					<button type="reset" class="button" value="Reset form">Cancel</button>
+                </div-->
+        	</form>
+        </div>
+    </div>
+    <footer>
+        <br>
+        <p>&copy; VisionPlanner 2021</p>
+        <p>Made with all the hard work by J,R,N and N</P>
+        
+        </footer>
+</body>
+</html>
