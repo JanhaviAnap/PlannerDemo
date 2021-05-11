@@ -149,7 +149,7 @@ public class UserMoodAction {
     
     public static String getDateColor(String date) {
         boolean status = false;
-        String color = "#666";
+        String color = "#eeeeee";
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("select * from moodlist where mooddate=?;");
@@ -169,21 +169,27 @@ public class UserMoodAction {
     public static String[] getDateColorArray() {
     	String[] color = new String[32]; 
     	for(int i=0; i<32; i++) {
-    		color[i]="#666";
+    		color[i]="#eeeeee";
     	}
-		LocalDate date = LocalDate.now();
-		Calendar cal = Calendar.getInstance();
+    	LocalDate currentdate = LocalDate.now();
+        int currentDay = currentdate.getDayOfMonth();
+        int currentMonth = currentdate.getMonthValue();
+        int currentYear = currentdate.getYear();
+        Calendar cal = Calendar.getInstance();
     	int first = cal.getInstance().getActualMinimum(Calendar.DAY_OF_MONTH);
     	int last = cal.getActualMaximum(Calendar.DATE);
-    	date = date.withDayOfMonth(first);
-    	date = date.withMonth(11);
-    	for(int i=first; i<=last; i++){
-    		String d = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-    		color[i] = getDateColor(d);
-    	    date = date.plusDays(1);
-    	    
+    	for(int i=first;i<=last;i++) {
+    		String d = String.format("%04d",currentYear)+"-"+String.format("%02d",currentMonth)+"-"+String.format("%02d",i);
+    		color[i]=getDateColor(d);
+    		//System.out.println(color[i]);  
     	}
-    	color[LocalDate.now().getDayOfMonth()]="#ff0000";
-    	return color;
+        //String d = String.format("%04d",currentYear)+"-"+String.format("%02d",currentMonth)+"-"+String.format("%02d",currentDay);
+        //System.out.println(d+" "+first+" "+last);
+        //color[currentDay]="#1cbc9c";
+        return color;
     }
+    
+    //public static void main(String[] args) {
+    	//String[] colors = getDateColorArray();
+    //}
 }

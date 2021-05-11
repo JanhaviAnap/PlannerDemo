@@ -218,11 +218,11 @@
             <form>
             	<p>
             		<label>For Date:</label>
-	            	<input type="date" name="date" value=<%=datenow %>>
+	            	<input type="date" name="date" value=<%=datenow %> required>
 	            </p>
 	            <p>
 	            	<label>How are you feeling</label>
-		            <select name="mood" id="mood">
+		            <select name="mood" id="mood" required>
 		                <option class="happy" value="happy">Happy</option>      
 		                <option class="gloomy" value="gloomy">Gloomy</option>
 		                <option class="humorous" value="humorous">Humorous</option>
@@ -251,6 +251,11 @@
             	String desc = request.getParameter("desc");
             	String moodcolor = UserMoodAction.getColor(mood);
             	boolean status = UserMoodAction.addMood(uid, inpDate, mood, moodcolor, desc);
+            	if(status==true){
+            		out.println("added successfully!");
+            	}else{
+            		out.println("not added successfully!");
+            	}
             	
             }catch(Exception e){
             	e.printStackTrace();
@@ -260,7 +265,7 @@
         </div>
         <div class="col-2">
             <div class="col-2">
-                <table cellspacing=0 style="background-color: #eeeeee; width:100%;">
+                <table style="background-color: #eeeeee; width:100%; border-collapse: collapse;border-style: hidden;">
 			        <tbody>
 			            <tr> 
 			                <td style="text-align: center; background-color: #9c9cfc; color:white;padding:30px" colspan="7"><b><%= months[month]+' '+year %></b></td>
@@ -275,6 +280,7 @@
 			                <td style="text-align: center; padding:15px"><b>Sat</b></td>
 			            </tr>
 			<%!
+			String [] color = UserMoodAction.getDateColorArray();
 			public String startRow() {
 				return "<tr bgcolor=\"#eeeeee\">";
 			}
@@ -282,18 +288,19 @@
 				if(x==0) {
 					return "<td style='padding:10px;'></td>";
 				} else {
-					return "<td style='text-align: center; color:#777777;padding:10px;'><b>"+x+"</b></td>";
+					return "<td style='text-align: center; color:#777777; background-color:"+color+"; padding:10px;'><b>"+x+"</b></td>";
+					//return "<td align=\"center\" bgcolor="+color+" ><font color=#777777>"+x+"</font></td>";
 			}
 			}
-			public String createElement(int x,String color, String bg) {
-				return "<td align=\"center\" bgcolor="+bg+" ><font color=\""+color+"\">"+x+"</font></td>";
+			public String createElement(int x) {
+				//return "<td align=\"center\" bgcolor="+color[x]+"><font color=\"white\">"+x+"</font></td>";
+				return "<td style='text-align: center; color:white; background-color:"+color[x]+"; padding:10px; border: 3px solid white;'><b>"+x+"</b></td>";
 			}
 			public String endRow() {
 				return "</tr>";
 			}
 			%>
 			<%
-			
 			int day_of_month = cal.get(Calendar.DAY_OF_MONTH);
 			int start = day_of_month;
 			if(day_of_month> 1)
@@ -303,7 +310,7 @@
 			int i=1;
 			//creating blank elements
 			for(i=1;i<dow;i++) {
-				out.println(createElement(0,"#777777"));
+				out.println(createElement(0,color[0]));
 			}
 			while(cal.get(Calendar.MONTH) == month) {
 				day_of_month = cal.get(Calendar.DAY_OF_MONTH);
@@ -313,9 +320,9 @@
 					out.println(startRow());
 				//highlight today
 				if(day_of_month==start)
-					out.println(createElement(day_of_month,"white","#1cbc9c"));
+					out.println(createElement(day_of_month));
 				else
-					out.println(createElement(day_of_month,"#777777"));
+					out.println(createElement(day_of_month,color[day_of_month]));
 				//end row on saturday
 				if(dow == 7)
 					out.println(endRow());
@@ -326,7 +333,7 @@
 				out.println(endRow());
 			} else {
 				for(i=dow;i<=7;i++) {
-					out.println(createElement(0,"#777777"));
+					out.println(createElement(0,color[0]));
 				}
 				out.println(endRow());
 			}

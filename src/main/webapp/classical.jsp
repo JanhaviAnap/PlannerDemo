@@ -17,9 +17,11 @@
 %>
 <%
 	Calendar cal = Calendar.getInstance();
+	int today = cal.get(Calendar.DAY_OF_MONTH);
 	int year = cal.get(Calendar.YEAR);
 	int month = cal.get(Calendar.MONTH);
 	String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+	String[] weekdays = {"","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -178,8 +180,8 @@
         <a href="moodtracker.jsp">MoodTracker</a>
         <button class="button button5" style="float: right;">P</button>
     </div>
-    <h2>12 MARCH</h2>
-    <h5>Tuesday, 2021</h5>
+    <h2><%out.println(today+" "+months[month]); %></h2>
+    <h5><%out.println(weekdays[cal.get(Calendar.DAY_OF_WEEK)]+", "+year); %></h5>
     <br>
     <%
     String email = (String)session.getAttribute("uemail");
@@ -230,17 +232,17 @@
 	            </p>
 	            <p>
 	            	<label>Start Date:</label>
-	            	<input type="date" name="asdate" value=<%=datenow %>>
+	            	<input type="date" name="asdate" value=<%=datenow %> required>
 	            	<br>
 	            	<label>Start Time:</label>
-	            	<input type="time" name="astime" value=<%=timenow %>>
+	            	<input type="time" name="astime" value=<%=timenow %> required>
 	            </p>
 	            <p>
 	            	<label>End Date:</label>
-	            	<input type="date" name="aedate" value=<%=datenow %>>
+	            	<input type="date" name="aedate" value=<%=datenow %> required>
 	            	<br>
 	            	<label>End Time:</label>
-	            	<input type="time" name="aetime" value=<%=timenow %>>
+	            	<input type="time" name="aetime" value=<%=timenow %> required>
 	            </p>
 	            
 	            <input type="submit" value="SUBMIT">
@@ -279,15 +281,15 @@
             <form>
             	<p>
 	                <label>View For:</label>
-	                <input type=text name="vemail" value=<%=email %>>
+	                <input type=text name="vemail" value=<%=email %> required>
 	            </p>
 	            <p>
 	            	<label>Date:</label>
-	            	<input type="date" name="vdate" value=<%=datenow %>>
+	            	<input type="date" name="vdate" value=<%=datenow %> required>
 	            </p>
 	            <p>
 	            	<label>View:</label>
-	            	<select name="vtype">
+	            	<select name="vtype" required>
 	            		<option value="daily">Daily</option>
 	            		<option value="monthly">Monthly</option>
 	            		<option value="yearly">Yearly</option>
@@ -350,8 +352,8 @@
 					return "<td style='text-align: center; color:#777777;padding:10px;'><b>"+x+"</b></td>";
 			}
 			}
-			public String createElement(int x,String color, String bg) {
-				return "<td align=\"center\" bgcolor="+bg+" ><font color=\""+color+"\">"+x+"</font></td>";
+			public String createElement(int x) {
+				return "<td align=\"center\" bgcolor=#1cbc9c ><font color=\"white\">"+x+"</font></td>";
 			}
 			public String endRow() {
 				return "</tr>";
@@ -378,7 +380,7 @@
 					out.println(startRow());
 				//highlight today
 				if(day_of_month==start)
-					out.println(createElement(day_of_month,"white","#1cbc9c"));
+					out.println(createElement(day_of_month));
 				else
 					out.println(createElement(day_of_month,"#777777"));
 				//end row on saturday
