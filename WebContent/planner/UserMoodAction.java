@@ -1,5 +1,6 @@
 package planner;
 
+import java.io.*;
 import java.sql.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -147,13 +148,14 @@ public class UserMoodAction {
         return trend;
     }
     
-    public static String getDateColor(String date) {
+    public static String getDateColor(int uniqueid,String date) {
         boolean status = false;
         String color = "#eeeeee";
         try {
             Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("select * from moodlist where mooddate=?;");
-            ps.setString(1, date);
+            PreparedStatement ps = conn.prepareStatement("select * from moodlist where uniqueid=? and mooddate=?;");
+            ps.setInt(1, uniqueid);
+            ps.setString(2, date);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
             	color = rs.getString("color");
@@ -166,7 +168,7 @@ public class UserMoodAction {
     }
 
     
-    public static String[] getDateColorArray() {
+    public static String[] getDateColorArray(int uniqueid) {
     	String[] color = new String[32]; 
     	for(int i=0; i<32; i++) {
     		color[i]="#eeeeee";
@@ -180,8 +182,8 @@ public class UserMoodAction {
     	int last = cal.getActualMaximum(Calendar.DATE);
     	for(int i=first;i<=last;i++) {
     		String d = String.format("%04d",currentYear)+"-"+String.format("%02d",currentMonth)+"-"+String.format("%02d",i);
-    		color[i]=getDateColor(d);
-    		//System.out.println(color[i]);  
+    		color[i]=getDateColor(uniqueid,d);
+    		System.out.println(color[i]+" "+d);  
     	}
         //String d = String.format("%04d",currentYear)+"-"+String.format("%02d",currentMonth)+"-"+String.format("%02d",currentDay);
         //System.out.println(d+" "+first+" "+last);
@@ -189,7 +191,35 @@ public class UserMoodAction {
         return color;
     }
     
+    public static String getQuote(int uniqueid,String date) {
+    	String quote = "";
+    	try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("select mood from moodlist where mooddate=?;");
+            ps.setString(1, date);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+            	String mood = rs.getString("mood");
+            	PreparedStatement ps1 = conn.prepareStatement("select quote from quotes where qtype=? order by rand() limit 1;");
+            	ps1.setString(1, mood);
+            	ResultSet rs1 = ps1.executeQuery();
+            	if(rs1.next()) {
+            		quote = rs1.getString("quote");
+            	}
+            }else {
+            	PreparedStatement ps1 = conn.prepareStatement("select quote from quotes order by rand() limit 1;");
+            	ResultSet rs1 = ps1.executeQuery();
+            	if(rs1.next()) {
+            		quote = rs1.getString("quote");
+            	}
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    	return quote;
+    }
+    
     //public static void main(String[] args) {
-    	//String[] colors = getDateColorArray();
+    	//String[] colors = getDateColorArray(552266);
     //}
 }

@@ -9,7 +9,7 @@ public class Mood {
         moodMap.put("gloomy", "#614051");
         moodMap.put("humorous", "#FFFF00");
         moodMap.put("calm", "#7FFFD4");
-        moodMap.put("light Hearted", "#FFDFDD");
+        moodMap.put("lighthearted", "#FFDFDD");
         moodMap.put("angry", "#800517");
         moodMap.put("cheerful", "#FF8040");
         moodMap.put("lonely", "#493D26");

@@ -2,6 +2,7 @@ package planner;
 
 import java.sql.*;
 import java.util.Random;
+import java.lang.Math;
 
 public class UserAction {
 
@@ -53,24 +54,21 @@ public class UserAction {
         return email;
     }
 
-    public static User getUserDataFromDB(int uniqueId){
+    public static String getUserName(int uniqueId){
         //select * from userdata where uniqueid=552266;
-        User u = new User();
+        String name = "";
         try {
             Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("select * from userdata where uniqueid=?;");
+            PreparedStatement ps = conn.prepareStatement("select username from userdata where uniqueid=?;");
             ps.setInt(1, uniqueId);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-                u.uniqueId = rs.getInt("uniqueid");
-                u.userName = rs.getString("username");
-                u.password= rs.getString("userpassword");
-                u.email = rs.getString("useremail");
+                name = rs.getString("username");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return u;
+        return name;
     }
 
     public static boolean checkIfEmailPresent(String email) {
@@ -148,7 +146,8 @@ public class UserAction {
         try{
             do{
                 Random rand = new Random();
-                id = rand.nextInt(900000)+100000;
+                id = Math.abs(rand.nextInt());
+                //id = rand.nextInt(900000)+100000;
                 Connection conn = getConnection();
                 PreparedStatement ps = conn.prepareStatement("select uniqueid from userdata where uniqueid=?;");
                 ps.setInt(1, id);

@@ -12,7 +12,7 @@
      color:white;
     }
     
-    input[type=text], input[type=password] {
+    input[type=text], input[type=password], input[type=email] {
     
       padding: 12px 20px;
       margin: 8px 0;
@@ -55,7 +55,7 @@
     <form action="signupAction.jsp" method="post">
       
       	<label for="uemail"><b>UserEmail</b></label>
-      	<input type="text" placeholder="Enter Email" name="email" required>
+      	<input type="email" placeholder="Enter Email" name="email" required>
       	<br><br>
       
       	<label for="uname"><b>UserName</b></label>
@@ -67,23 +67,7 @@
       	<br><br>
       	<input type="submit" class="signupbtn" value="submit">
       	<br><br><br>
-      
-        <!-- div class="clearfix">
-        <button type="submit" class="signupbtn" onclick="myFunction()">Sign Up</button>
-        <script>
-          function myFunction() {
-            location.replace("ty.html")
-          }
-        </script>
-        <br><br><br>
-      </div-->
     </form>
   </div>
 </body>
-<!--footer>
-<br>
-<p>&copy VisionPlanner 2021</p>
-<p>Made with all the hard work by J,R,N & N</P>
-
-</footer-->
 </html>

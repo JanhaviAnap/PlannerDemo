@@ -2,6 +2,7 @@ package planner;
 
 
 import java.sql.*;
+import java.util.Calendar;
 //import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.Vector;
@@ -13,7 +14,7 @@ public class UserEventAction {
         boolean status = false;
         try{
             Connection conn = UserAction.getConnection();
-            String selfemail = UserAction.getEmailFromId(uniqueid);
+            //String selfemail = UserAction.getEmailFromId(uniqueid);
             int elseid = UserAction.getUniqueIdFromDB(email);
             //add event to self schedule
             PreparedStatement ps = conn.prepareStatement("insert into eventlist values (?,?,?,?,?,?);");
@@ -22,10 +23,11 @@ public class UserEventAction {
             ps.setString(3, eventdesc);
             ps.setString(4, eventstart);
             ps.setString(5, eventend);
-            ps.setString(6, selfemail);
+            ps.setString(6, email);
             if(ps.executeUpdate()>0){
                 status = true;
             }
+            //add event invite to another user
             if(elseid!=uniqueid) {
             	ps = conn.prepareStatement("insert into eventlist values (?,?,?,?,?,?);");
                 ps.setInt(1, elseid);
@@ -33,7 +35,7 @@ public class UserEventAction {
                 ps.setString(3, eventdesc);
                 ps.setString(4, eventstart);
                 ps.setString(5, eventend);
-                ps.setString(6, selfemail);
+                ps.setString(6, email);
                 if(ps.executeUpdate()>0){
                     status = true;
                 }
@@ -162,7 +164,7 @@ public class UserEventAction {
             ps.setInt(3, uniqueid);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                schedule.add(rs.getString("eventstart")+"  "+rs.getString("eventend"));
+            	schedule.add("\nStart: "+rs.getString("eventstart")+"<br>End: "+rs.getString("eventend")+"<br>");
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -179,7 +181,7 @@ public class UserEventAction {
             ps.setInt(2, uniqueid);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                schedule.add(rs.getString("eventstart")+"  "+rs.getString("eventend"));
+            	schedule.add("\nStart: "+rs.getString("eventstart")+"<br>End: "+rs.getString("eventend")+"<br>");
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -239,4 +241,47 @@ public class UserEventAction {
     	}
     	return schedule;
     }
+    
+    public static String getDateColor(int uniqueid,String date) {
+        boolean status = false;
+        String color = "#eeeeee";//#9c9cfc
+        try {
+            Connection conn = UserAction.getConnection();
+            PreparedStatement ps = conn.prepareStatement("select distinct * from eventlist where uniqueid=? and date(eventstart)=?;");
+            ps.setInt(1, uniqueid);
+            ps.setString(2, date);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+            	color = "#9c9cfc";
+                status = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return color;
+    }
+    
+    public static String[] getDateColorArray(int uniqueid) {
+    	String[] color = new String[32];
+    	for(int i=0; i<32; i++) {
+    		color[i]="#eeeeee";
+    	}
+    	LocalDate currentdate = LocalDate.now();
+        int currentDay = currentdate.getDayOfMonth();
+        int currentMonth = currentdate.getMonthValue();
+        int currentYear = currentdate.getYear();
+        Calendar cal = Calendar.getInstance();
+    	int first = cal.getInstance().getActualMinimum(Calendar.DAY_OF_MONTH);
+    	int last = cal.getActualMaximum(Calendar.DATE);
+    	for(int i=first;i<=last;i++) {
+    		String d = String.format("%04d",currentYear)+"-"+String.format("%02d",currentMonth)+"-"+String.format("%02d",i);
+    		color[i]=getDateColor(uniqueid,d);  
+    		//System.out.println(color[i]);  
+    	}
+    	return color;
+    }
+    
+    //public static void main(String[] args) {
+    	//String[] colors = getDateColorArray(552266);
+   // }
 }

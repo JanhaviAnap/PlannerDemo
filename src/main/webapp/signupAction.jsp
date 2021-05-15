@@ -17,7 +17,7 @@
 	if(status==true){
 		//response.redirect("login.html");
 		//out.println("success!");
-		String site = new String("login.html");
+		String site = new String("ty.html");
         response.setStatus(response.SC_MOVED_TEMPORARILY);
         response.setHeader("Location", site);
 	}else{

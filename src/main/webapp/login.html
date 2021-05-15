@@ -12,7 +12,7 @@
         form {
             border: 0px solid #f1f1f1;
         }
-        input[type=text], input[type=password] {
+        input[type=text], input[type=password],input[type=email] {
 
             padding: 12px 20px;
             margin: 8px 0;
@@ -88,26 +88,14 @@
     	<div class="container">
         	<form name="login" action="loginAction.jsp" method="post">
                 <label style="color: white;"><b>UserEmail</b></label><br><!--for="uname"-->
-                <input type="text" placeholder="Enter Email" name="email" required>
+                <input type="email" placeholder="Enter Email" name="email" required>
                 <br><br>
                 <label style="color:white;"><b>Password</b></label><br><!--for="psw"-->
                 <input type="password" placeholder="Enter Password" name="pswd" required>
                 <br><br>
                 <input type="submit" class="button" value="Submit">
-                <!-- div>
-                    <input type="submit" class="button" value="Submit">
-                    <input type="reset" class="button" value="Reset">
-                    <button type="submit" class="button" value="Submit">Submit</button>
-  					<button type="reset" class="button" value="Reset form">Cancel</button>
-                </div-->
         	</form>
         </div>
     </div>
-    <footer>
-        <br>
-        <p>&copy; VisionPlanner 2021</p>
-        <p>Made with all the hard work by J,R,N and N</P>
-        
-        </footer>
 </body>
 </html>

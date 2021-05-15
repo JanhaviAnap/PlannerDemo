@@ -1,10 +1,11 @@
 <%@page import="planner.UserAction" %>
 <%@page import="planner.UserEventAction" %>
-<%@ page import="java.util.*" %>
-<%@ page import="java.util.Calendar"%>
-<%@ page import="java.time.*" %>
-<%@ page import="java.text.*" %>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@page import="planner.UserMoodAction" %>
+<%@page import="java.util.*" %>
+<%@page import="java.util.Calendar"%>
+<%@page import="java.time.*" %>
+<%@page import="java.text.*" %>
+<%@page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <% 
 	DateFormat date = new SimpleDateFormat("yyyy-MM-dd");
@@ -154,7 +155,7 @@
             display: inline-block;
             font-size: 14px;
             margin: 10px 10px;
-            border-radius: 50%;
+            border-radius: 5%;
             /*float: right;*/
         }
         
@@ -166,40 +167,32 @@
         .row{display: flex;}
         .col-1{
             flex: 45%;
+            padding: 20px;
         }
         .col-2{
             flex: 55%;
+            padding: 20px;
         }
     </style>
 </head>
 <body>
+	<%
+    String email = (String)session.getAttribute("uemail");
+    int uid = UserAction.getUniqueIdFromDB(email);
+    %>
     <div class="navbar">
         <a href="homepage.html" style="padding: 12px; margin: 0; border: 0;"><img src="assets/img/VisionPlannerLogo.jpeg" alt="logo" style="height: 45px; width: 45px;"></a>
         <a href="classical.jsp">Classical</a>
-        <a href="financial.html">Financial</a>
         <a href="moodtracker.jsp">MoodTracker</a>
-        <button class="button button5" style="float: right;">P</button>
+        <button class="button button5" style="float: right;"><%out.println(UserAction.getUserName(uid)); %></button>
     </div>
-    <h2><%out.println(today+" "+months[month]); %></h2>
-    <h5><%out.println(weekdays[cal.get(Calendar.DAY_OF_WEEK)]+", "+year); %></h5>
-    <br>
-    <%
-    String email = (String)session.getAttribute("uemail");
-    int uid = UserAction.getUniqueIdFromDB(email);
-    //int uid=552266;
-    %>
     <div class="row">
         <div class="col-1">
+	        <h1><%out.println(today+" "+months[month]); %></h1>
+		    <h3><%out.println(weekdays[cal.get(Calendar.DAY_OF_WEEK)]+", "+year); %></h3>
+		    <br>
             <h3>Today's Tasks</h3> 
             <%	
-            //out.println("Hello");
-			//String hello = "hellllooooo";
-			//out.println(hello);
-            	//String email = (String)loginAction.getAttribute("uemail");
-            	//int uid = UserAction.getUniqueIdFromDB("prem@gmail.com");
-            	//int uid = 552266;
-            	//out.println(uid);
-            	//out.println("Event start           Event End  Event     Desc");
             	Vector<String> schedule = new Vector<String>();
             	schedule = UserEventAction.viewTasksForTodayForSelf(uid);
             	if(schedule.size()>0){            	
@@ -210,18 +203,14 @@
             	}else{
             		out.println("You're all caught up!");
             	}
-            	//String schedule = UserEventAction.viewTasksForTodayForSelfString(uid);
-            	//out.println(schedule);
             %>
-            <br>
-            <br>
             <br>
             <br>
             <h2>Add Events</h2>
             <form>
             	<p>
 	                <label>Add For:</label>
-	                <input type=text name="aemail" value=<%=email %> required>
+	                <input type=email name="aemail" value=<%=email %> required>
 	            </p>
 	            <p>
 	                <label>Event Name:</label>
@@ -264,12 +253,13 @@
             	String inpEnd = inpEndDate + " " +inpEndTime;
             	
             	boolean status = UserEventAction.addEvent(inpUid, eventname, eventdesc, inpStart, inpEnd, email);
+            	/*
             	if(status==true){
             		out.println("Event Added Successfully!");
             	}else{
             		out.println("Try Agin!");
             	}
-            	
+            	*/
             }catch(Exception e){
             	e.printStackTrace();
             }
@@ -281,7 +271,7 @@
             <form>
             	<p>
 	                <label>View For:</label>
-	                <input type=text name="vemail" value=<%=email %> required>
+	                <input type=email name="vemail" value=<%=email %> required>
 	            </p>
 	            <p>
 	            	<label>Date:</label>
@@ -316,7 +306,7 @@
                 		out.println((String)event);
                 	}
             	}else{
-            		out.println("You're all caught up!");
+            		out.println("All caught up!");
             	}
             }catch(Exception  e){
             	e.printStackTrace();
@@ -326,7 +316,8 @@
             
         </div>
         <div class="col-2">
-            <div class="col-2">
+        	<br><br><br>
+            <div>
                 <table cellspacing=0 style="background-color: #eeeeee; width:100%;">
 			        <tbody>
 			            <tr> 
@@ -341,66 +332,69 @@
 			                <td style="text-align: center; padding:15px"><b>Fri</b></td>
 			                <td style="text-align: center; padding:15px"><b>Sat</b></td>
 			            </tr>
-			<%!
-			public String startRow() {
-				return "<tr bgcolor=\"#eeeeee\">";
-			}
-			public String createElement(int x, String color) {
-				if(x==0) {
-					return "<td style='padding:10px;'></td>";
-				} else {
-					return "<td style='text-align: center; color:#777777;padding:10px;'><b>"+x+"</b></td>";
-			}
-			}
-			public String createElement(int x) {
-				return "<td align=\"center\" bgcolor=#1cbc9c ><font color=\"white\">"+x+"</font></td>";
-			}
-			public String endRow() {
-				return "</tr>";
-			}
-			%>
-			<%
-			
-			int day_of_month = cal.get(Calendar.DAY_OF_MONTH);
-			int start = day_of_month;
-			if(day_of_month> 1)
-				cal.set(Calendar.DAY_OF_MONTH,1);
-			out.println(startRow());
-			int dow = cal.get(Calendar.DAY_OF_WEEK);
-			int i=1;
-			//creating blank elements
-			for(i=1;i<dow;i++) {
-				out.println(createElement(0,"#777777"));
-			}
-			while(cal.get(Calendar.MONTH) == month) {
-				day_of_month = cal.get(Calendar.DAY_OF_MONTH);
-				dow = cal.get(Calendar.DAY_OF_WEEK);
-				//creating row on sunday
-				if((dow == 1) && (day_of_month !=1))
-					out.println(startRow());
-				//highlight today
-				if(day_of_month==start)
-					out.println(createElement(day_of_month));
-				else
-					out.println(createElement(day_of_month,"#777777"));
-				//end row on saturday
-				if(dow == 7)
-					out.println(endRow());
-				cal.add(Calendar.DAY_OF_MONTH, 1);
-			}
-			dow = cal.get(Calendar.DAY_OF_WEEK);
-			if(dow==1) {
-				out.println(endRow());
-			} else {
-				for(i=dow;i<=7;i++) {
-					out.println(createElement(0,"#777777"));
-				}
-				out.println(endRow());
-			}
-			%>
+						<%!
+						public String startRow(){
+							return "<tr bgcolor=\"#eeeeee\">";
+						}
+						public String createElement(int x, String color) {
+							if(x==0) {
+								return "<td style='padding:10px;'></td>";
+							} else {
+								return "<td style='text-align: center; color:#777777; background-color:"+color+"; padding:10px;'><b>"+x+"</b></td>";
+							}
+						}
+						public String endRow() {
+							return "</tr>";
+						}
+						%>
+						<%
+						String [] color = UserEventAction.getDateColorArray(uid);
+						int day_of_month = cal.get(Calendar.DAY_OF_MONTH);
+						int start = day_of_month;
+						if(day_of_month> 1)
+							cal.set(Calendar.DAY_OF_MONTH,1);
+						out.println(startRow());
+						int dow = cal.get(Calendar.DAY_OF_WEEK);
+						int i=1;
+						//creating blank elements
+						for(i=1;i<dow;i++) {
+							out.println(createElement(0,color[0]));
+						}
+						while(cal.get(Calendar.MONTH) == month) {
+							day_of_month = cal.get(Calendar.DAY_OF_MONTH);
+							dow = cal.get(Calendar.DAY_OF_WEEK);
+							//creating row on sunday
+							if((dow == 1) && (day_of_month !=1))
+								out.println(startRow());
+							//highlight today
+							if(day_of_month==start)
+								out.println("<td style='text-align: center; color:#1abc9c; background-color:"+color[day_of_month]+"; padding:10px; border: 3px solid #1abc9c;'><b>"+day_of_month+"</b></td>");
+							else
+								out.println(createElement(day_of_month,color[day_of_month]));
+							//end row on saturday
+							if(dow == 7)
+								out.println(endRow());
+							cal.add(Calendar.DAY_OF_MONTH, 1);
+						}
+						dow = cal.get(Calendar.DAY_OF_WEEK);
+						if(dow==1) {
+							out.println(endRow());
+						} else {
+							for(i=dow;i<=7;i++) {
+								out.println(createElement(0,color[0]));
+							}
+							out.println(endRow());
+						}
+						%>
 				</tbody>
 			</table>
-            </div>
+         
+         <br>
+         <br>
+         <%
+         	out.println("<h3 style='text-align: center;'><i>"+UserMoodAction.getQuote(552266,"2021-05-13")+"</i></h3>");
+         %>
+          </div>
         </div>
     </div> 
     
