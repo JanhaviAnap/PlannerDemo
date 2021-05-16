@@ -34,7 +34,17 @@
     <style>
     	* {box-sizing: border-box;}
         body {font-family: Verdana, sans-serif;}
+<<<<<<< HEAD
  
+=======
+        
+        
+        .main {
+            width:70%;
+            float:right;
+        }
+
+>>>>>>> origin/master
         .navbar {
             overflow: hidden;
             background-color: #9d9dff;

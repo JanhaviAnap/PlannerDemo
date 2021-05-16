@@ -54,8 +54,8 @@ public class QuoteSetup {
     	} 
     }
     
-    //public static void main(String[] args) {
-    	//readQuotes();
+    public static void main(String[] args) {
+    	readQuotes();
     	//System.out.println(UserMoodAction.getQuote(552266,"2021-05-13"));
-    //}
+    }
 }
