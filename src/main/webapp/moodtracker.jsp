@@ -31,91 +31,9 @@
     <title>Vision Planner</title>
     <style>
         * {box-sizing: border-box;}
-        ul {list-style-type: none;}
+        
         body {font-family: Verdana, sans-serif;}
-        .main {
-            width:70%;
-            float:right;
-        }
-
-        .month {
-            padding: 70px 25px;
-            width: 100%;
-            background: #9d9dff;
-            text-align: center;
-        }
-
-        .month ul {
-            margin: 0;
-            padding: 0;
-        }
-
-        .month ul li {
-            color: white;
-            font-size: 20px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-        }
-
-        .month .prev {
-            float: left;
-            padding-top: 10px;
-        }
-
-        .month .next {
-            float: right;
-            padding-top: 10px;
-        }
-
-        .weekdays {
-            margin: 0;
-            padding: 10px 0;
-            background-color: #ddd;
-        }
-
-        .weekdays li {
-            display: inline-block;
-            width: 13.6%;
-            color: #666;
-            text-align: center;
-        }
-
-        .days {
-            padding: 10px 0;
-            background: #eee;
-            margin: 0;
-        }
-
-        .days li {
-            list-style-type: none;
-            display: inline-block;
-            width: 13.6%;
-            text-align: center;
-            margin-bottom: 5px;
-            font-size:12px;
-            color: #777;
-        }
-
-        .days li .active {
-            padding: 5px;
-            background: #1abc9c;
-            color: white !important
-        }
-
-        /* Add media queries for smaller screens */
-        @media screen and (max-width:720px) {
-            .weekdays li, .days li {width: 13.1%;}
-        }
-
-        @media screen and (max-width: 420px) {
-            .weekdays li, .days li {width: 12.5%;}
-            .days li .active {padding: 2px;}
-        }
-
-        @media screen and (max-width: 290px) {
-            .weekdays li, .days li {width: 12.2%;}
-        }
-
+        
         .navbar {
             overflow: hidden;
             background-color: #9d9dff;
@@ -207,7 +125,7 @@
     //int uid=552266;
     %>
     <div class="navbar">
-        <a href="homepage.jsp" style="padding: 12px; margin: 0; border: 0;"><img src="assets/img/VisionPlannerLogo.jpeg" alt="logo" style="height: 45px; width: 45px;"></a>
+        <a href="homepage.html" style="padding: 12px; margin: 0; border: 0;"><img src="assets/img/VisionPlannerLogo.jpeg" alt="logo" style="height: 45px; width: 45px;"></a>
         <a href="classical.jsp">Classical</a>
         <a href="mood.html">MoodTracker</a>
         <button class="button button5" style="float: right;"><%out.println(UserAction.getUserName(uid)); %></button>
@@ -221,7 +139,7 @@
             <form>
             	<p>
             		<label>For Date:</label>
-	            	<input type="date" name="date" value=<%=datenow %> required>
+	            	<input type="date" name="date" max=<%=datenow%> value=<%=datenow%> required>
 	            </p>
 	            <p>
 	            	<label>How are you feeling</label>
@@ -248,6 +166,7 @@
             	uid = UserAction.getUniqueIdFromDB(email);
             	
             	String inpDate = request.getParameter("date");
+            	//out.println(inpDate);
             	
             	String mood = request.getParameter("mood");
             	
@@ -255,11 +174,16 @@
             	String moodcolor = UserMoodAction.getColor(mood);
             	boolean status = UserMoodAction.addMood(uid, inpDate, mood, moodcolor, desc);
             	if(status==true){
-            		out.println("added successfully!");
+         	  		out.println("added successfully!");
             	}else{
             		out.println("not added successfully!");
             	}
             	
+            //	if(status==true){
+            //		out.println("added successfully!");
+            //	}else{
+            //		out.println("not added successfully!");
+            //	}	
             }catch(Exception e){
             	e.printStackTrace();
             }
@@ -291,13 +215,15 @@
 								return "<td style='padding:10px;'></td>";
 							} else {
 								return "<td style='text-align: center; color:#777777; background-color:"+color+"; padding:10px;'><b>"+x+"</b></td>";
-						}
+							}
 						}
 						public String endRow() {
 							return "</tr>";
 						}
 						%>
 						<%
+						email = (String)session.getAttribute("uemail");
+					    uid = UserAction.getUniqueIdFromDB(email);
 						String [] color = UserMoodAction.getDateColorArray(uid);
 						int day_of_month = cal.get(Calendar.DAY_OF_MONTH);
 						int start = day_of_month;
@@ -342,7 +268,7 @@
 			<br>
          <br>
          <%
-         out.println("<h3 style='text-align: center;'><i>"+UserMoodAction.getQuote(552266,"2021-05-13")+"</i></h3>");
+         out.println("<h3 style='text-align: center;'><i>"+UserMoodAction.getQuote(uid,datenow)+"</i></h3>");
          %>   
         </div>
     </div>

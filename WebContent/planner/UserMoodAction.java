@@ -24,12 +24,13 @@ public class UserMoodAction {
         return conn;
     }
 
-    public static boolean checkIfDatePresent(String date) {
+    public static boolean checkIfDatePresent(int uniqueid,String date) {
         boolean status = false;
         try {
             Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("select * from moodlist where mooddate=?;");
+            PreparedStatement ps = conn.prepareStatement("select * from moodlist where mooddate=? and uniqueid=?;");
             ps.setString(1, date);
+            ps.setInt(2, uniqueid);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 status = true;
@@ -50,17 +51,18 @@ public class UserMoodAction {
         boolean status = false;
         try {
             Connection conn = UserAction.getConnection();
-            if(checkIfDatePresent(date)){
-                PreparedStatement ps = conn.prepareStatement("update moodlist set mood=?,color=?,daydesc=? where uniqueid=? and mooddate=?;");
-                ps.setString(1, mood);
-                ps.setString(2, color);
-                ps.setString(3, daydesc);
-                ps.setInt(4, uniqueid);
-                ps.setString(5, date);
-                if(ps.executeUpdate()>0){
-                    status = true;
-                }
-            }else{
+            if(checkIfDatePresent(uniqueid,date)){
+	            PreparedStatement ps = conn.prepareStatement("update moodlist set mood=?,color=?,daydesc=? where uniqueid=? and mooddate=?;");
+	            ps.setString(1, mood);
+	            ps.setString(2, color);
+	            ps.setString(3, daydesc);
+	            ps.setInt(4, uniqueid);
+	            ps.setString(5, date);
+	            if(ps.executeUpdate()>0){
+	                status = true;
+	            }
+            }else {
+            
                 PreparedStatement ps = conn.prepareStatement("insert into moodlist values(?,?,?,?,?);");
                 ps.setInt(1, uniqueid);
                 ps.setString(2, date);
@@ -72,11 +74,12 @@ public class UserMoodAction {
                 }
             }
             
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+        	e.printStackTrace();
         }
         return status;
     }
+    
 
     public static Vector<String> viewMoodFromYear(int uniqueid,int year) {
         Vector<String> trend = new Vector<String>();
@@ -183,7 +186,7 @@ public class UserMoodAction {
     	for(int i=first;i<=last;i++) {
     		String d = String.format("%04d",currentYear)+"-"+String.format("%02d",currentMonth)+"-"+String.format("%02d",i);
     		color[i]=getDateColor(uniqueid,d);
-    		System.out.println(color[i]+" "+d);  
+    		//System.out.println(color[i]+" "+d);  
     	}
         //String d = String.format("%04d",currentYear)+"-"+String.format("%02d",currentMonth)+"-"+String.format("%02d",currentDay);
         //System.out.println(d+" "+first+" "+last);
@@ -219,7 +222,18 @@ public class UserMoodAction {
     	return quote;
     }
     
-    //public static void main(String[] args) {
-    	//String[] colors = getDateColorArray(552266);
-    //}
+//    public static void main(String[] args) {
+//    	//String[] colors = getDateColorArray(552266);
+//    	int uniqueid = 545298006;
+//    	String date = "2021-05-16";
+//    	String mood = "happy";
+//    	String color = "#F9A7B0";
+//    	String daydesc = "nice";
+//    	boolean status = addMood(uniqueid, date, mood, color, daydesc);
+//    	if(status) {
+//    		System.out.println("done");
+//    	}else{
+//    		System.out.println("not done");
+//    	}
+//    }
 }

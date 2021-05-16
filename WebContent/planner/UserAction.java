@@ -146,8 +146,8 @@ public class UserAction {
         try{
             do{
                 Random rand = new Random();
-                id = Math.abs(rand.nextInt());
-                //id = rand.nextInt(900000)+100000;
+                //id = Math.abs(rand.nextInt());
+                id = rand.nextInt(900000)+100000;
                 Connection conn = getConnection();
                 PreparedStatement ps = conn.prepareStatement("select uniqueid from userdata where uniqueid=?;");
                 ps.setInt(1, id);
