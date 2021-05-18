@@ -59,20 +59,20 @@ public class Main {
       }
   }
 
-  public static void testGetUserDataFromDB(){
-      System.out.println("Testing get user data from db");
-      try {
-          Scanner sc = new Scanner(System.in);
-          System.out.println("Enter uniqueId: ");
-          int uniqueId = sc.nextInt();
-          User u = UserAction.getUserDataFromDB(uniqueId);
-          System.out.println("User username: "+u.userName);
-          System.out.println("User password: "+u.password);
-          System.out.println("User email: "+u.email);
-      } catch (Exception e) {
-          e.printStackTrace();
-      }
-  }
+//  public static void testGetUserDataFromDB(){
+//      System.out.println("Testing get user data from db");
+//      try {
+//          Scanner sc = new Scanner(System.in);
+//          System.out.println("Enter uniqueId: ");
+//          int uniqueId = sc.nextInt();
+//          User u = UserAction.getUserDataFromDB(uniqueId);
+//          System.out.println("User username: "+u.userName);
+//          System.out.println("User password: "+u.password);
+//          System.out.println("User email: "+u.email);
+//      } catch (Exception e) {
+//          e.printStackTrace();
+//      }
+//  }
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 /*
